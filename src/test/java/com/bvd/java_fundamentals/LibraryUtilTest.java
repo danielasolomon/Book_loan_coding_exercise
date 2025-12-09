@@ -64,4 +64,13 @@ class LibraryUtilTest {
         assertEquals(List.of("J.R.R. Tolkien", "Fyodor Dostoevsky"), top2);
     }
 
+    @Test
+    void testMembers_atLeast3Genres(){
+        List<String> result = membersWithGenreDiversity(validLoans, 3);
+        List<String> expected = List.of("M-002", "M-003", "M-008", "M-009", "M-010");
+
+        assertEquals(expected.size(), result.size());
+        assertEquals(expected, result);
+    }
+
 }
