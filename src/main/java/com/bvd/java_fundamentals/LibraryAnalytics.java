@@ -37,7 +37,7 @@ import static com.bvd.java_fundamentals.LibraryUtil.topAuthorsByLoans;
  */
 public class LibraryAnalytics {
 
-    protected static List<String> loadedFile = loadResourceFile("");
+    protected static List<String> loadedFile = loadResourceFile("loans/libraryLoans.csv");
 
     /* The expected output of the main method is:
         Loaded 35 entries from the CSV file.
@@ -54,10 +54,10 @@ public class LibraryAnalytics {
         System.out.println("Loaded %s entries from the CSV file.".formatted(loadedFile.size()));
         System.out.println("Valid loans: " + loans.get("valid").size());
         System.out.println("Malformed loans: " + loans.get("malformed").size());
-        System.out.println("Loans by genre: " + loansByGenre(loans));
-        System.out.println("Top 2 authors: " + topAuthorsByLoans(loans, 2));
-        System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loans, 3));
-        System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans, "Dune"));
-        System.out.println("Is book present: 'Harry Potter': " + isBookPresent(loans, "Harry Potter"));
+        //System.out.println("Loans by genre: " + loansByGenre(loans));
+        //System.out.println("Top 2 authors: " + topAuthorsByLoans(loans, 2));
+        //System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loans, 3));
+        //System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans, "Dune"));
+        //System.out.println("Is book present: 'Harry Potter': " + isBookPresent(loans, "Harry Potter"));
     }
 }
