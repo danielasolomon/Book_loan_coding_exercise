@@ -57,7 +57,7 @@ public class LibraryAnalytics {
         System.out.println("Loans by genre: " + loansByGenre(loans.get("valid")));
         System.out.println("Top 2 authors: " + topAuthorsByLoans(loans.get("valid"), 2));
         System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loans.get("valid"), 3));
-        //System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans, "Dune"));
+        System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans.get("valid"), "Dune"));
         //System.out.println("Is book present: 'Harry Potter': " + isBookPresent(loans, "Harry Potter"));
     }
 }

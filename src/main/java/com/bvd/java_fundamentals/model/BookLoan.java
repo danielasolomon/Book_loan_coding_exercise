@@ -48,4 +48,19 @@ public class BookLoan {
     public int getDaysLoaded() {
         return daysLoaded;
     }
+
+    @Override
+    public String toString() {
+        return "BookLoan{" +
+                "loanId='" + loanId + '\'' +
+                ", memberId='" + memberId + '\'' +
+                ", loanDate=" + loanDate +
+                ", bookTitle='" + bookTitle + '\'' +
+                ", genre='" + genre + '\'' +
+                ", author='" + author + '\'' +
+                ", daysLoaned=" + daysLoaded +
+                '}';
+    }
+
+
 }

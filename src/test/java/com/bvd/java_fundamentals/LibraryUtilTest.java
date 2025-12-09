@@ -73,4 +73,14 @@ class LibraryUtilTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    void testFindFirstBookContaining_Dune() {
+        var found = findFirstBookContaining(validLoans, "Dune");
+
+        assertTrue(found.isPresent());
+        assertEquals("L-1006", found.get().getLoanId());
+        assertEquals("Dune", found.get().getBookTitle());
+    }
+
+
 }

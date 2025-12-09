@@ -116,8 +116,10 @@ public class LibraryUtil {
 
     // find the first book title containing a substring (case-insensitive)
     protected static Optional<BookLoan> findFirstBookContaining(final List<BookLoan> loans, final String book) {
-        // Write your code here and replace the return statement
-        return Optional.empty();
+        String lowerBook = book.toLowerCase();
+        return loans.stream()
+                .filter(loan -> loan.getBookTitle().toLowerCase().contains(lowerBook))
+                .findFirst();
     }
 
     // checks if the book is present in the loans (case-insensitive)
