@@ -55,7 +55,7 @@ public class LibraryAnalytics {
         System.out.println("Valid loans: " + loans.get("valid").size());
         System.out.println("Malformed loans: " + loans.get("malformed").size());
         System.out.println("Loans by genre: " + loansByGenre(loans.get("valid")));
-        //System.out.println("Top 2 authors: " + topAuthorsByLoans(loans, 2));
+        System.out.println("Top 2 authors: " + topAuthorsByLoans(loans.get("valid"), 2));
         //System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loans, 3));
         //System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans, "Dune"));
         //System.out.println("Is book present: 'Harry Potter': " + isBookPresent(loans, "Harry Potter"));

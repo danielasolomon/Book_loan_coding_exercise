@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static com.bvd.java_fundamentals.LibraryUtil.loansByGenre;
-import static com.bvd.java_fundamentals.LibraryUtil.parseCsvLines;
+import static com.bvd.java_fundamentals.LibraryUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryUtilTest {
@@ -48,7 +47,7 @@ class LibraryUtilTest {
 
     @Test
     void testLoansByGenre_counts() {
-        Map<String,Long> countByGenre = loansByGenre(validLoans);
+        Map<String, Long> countByGenre = loansByGenre(validLoans);
 
         assertEquals(5, countByGenre.size());
         assertEquals(9, countByGenre.get("Classic"));
@@ -58,4 +57,11 @@ class LibraryUtilTest {
         assertEquals(7, countByGenre.get("Science Fiction"));
 
     }
+
+    @Test
+    void testTopAuthorsByLoans_top2() {
+        var top2 = topAuthorsByLoans(validLoans, 2);
+        assertEquals(List.of("J.R.R. Tolkien", "Fyodor Dostoevsky"), top2);
+    }
+
 }
