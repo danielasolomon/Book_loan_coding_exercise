@@ -54,7 +54,7 @@ public class LibraryAnalytics {
         System.out.println("Loaded %s entries from the CSV file.".formatted(loadedFile.size()));
         System.out.println("Valid loans: " + loans.get("valid").size());
         System.out.println("Malformed loans: " + loans.get("malformed").size());
-        //System.out.println("Loans by genre: " + loansByGenre(loans));
+        System.out.println("Loans by genre: " + loansByGenre(loans.get("valid")));
         //System.out.println("Top 2 authors: " + topAuthorsByLoans(loans, 2));
         //System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loans, 3));
         //System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans, "Dune"));

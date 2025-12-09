@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
  * Implement the methods below so that the requirements are met.
@@ -47,25 +48,11 @@ public class LibraryUtil {
         //loanId,memberId,loanDate,bookTitle,genre,author,daysLoaned
         //L-1001 , M-001 , 2024-06-01 , The Hobbit , Fantasy , J.R.R. Tolkien , 14 ,
 
-        List<BookLoan> allBookLoans = file.stream()
+        var allBookLoans = file.stream()
                 .map(x -> x.split(","))
                 .map(x -> Arrays.stream(x).map(y -> y.trim()).toList())
                 .map(x -> {
                     try {
-
-                        if(x.size()<7) {
-                            return new BookLoan("Malformed_wrong_nr_columns", "", null,
-                                    "", "", "", 0);
-                        }
-
-
-                        if (x.get(0).isEmpty() || x.get(1).isEmpty() ||
-                                x.get(2).isEmpty() || x.get(3).isEmpty() ||
-                                x.get(4).isEmpty() || x.get(5).isEmpty() || x.get(6).isEmpty()) {
-                            return new BookLoan("Malformed_empty_field", "", null,
-                                    "", "", "", 0);
-                        }
-
                         return new BookLoan(
                                 x.get(0),
                                 x.get(1),
@@ -77,32 +64,23 @@ public class LibraryUtil {
                         );
 
                     } catch (Exception e) {
-                        return new BookLoan("Malformed_parse_error", "", null,
-                                "", "", "", 0);
+                        return null;
                     }
                 })
-                .toList();
-
-        List<BookLoan> valid = allBookLoans.stream()
-                .filter(loan -> !loan.getLoanId().startsWith(("Malformed")))
-                .toList();
-
-        List<BookLoan> malformed = allBookLoans.stream()
-                .filter(loan -> loan.getLoanId().startsWith(("Malformed")))
-                .toList();
-
-        return Map.of(
-                "valid", valid,
-                "malformed", malformed
-        );
+                .collect(Collectors.groupingBy(x -> x == null ? "malformed": "valid"));
+        return allBookLoans;
 
     }
 
     // count loans per genre
     // sorted alphabetically by genre
     protected static Map<String, Long> loansByGenre(final List<BookLoan> loans) {
-        // Write your code here and replace the return statement
-        return Collections.emptyMap();
+
+        return loans.stream()
+                .collect(Collectors.groupingBy(
+                        BookLoan::getGenre,     //key
+                        TreeMap::new,           //sorted
+                        Collectors.counting()));//value
     }
 
     // get top "n" authors by number of loans
