@@ -82,5 +82,16 @@ class LibraryUtilTest {
         assertEquals("Dune", found.get().getBookTitle());
     }
 
+    @Test
+    void testIsBookPresent_HarryPotter() {
+        assertFalse(isBookPresent(validLoans, "Harry Potter"));
+    }
+
+    @Test
+    void testIsBookPresent_caseInsensitive() {
+        assertTrue(isBookPresent(validLoans, "the hobbit"));
+        assertTrue(isBookPresent(validLoans, "HOBBIT"));
+    }
+
 
 }

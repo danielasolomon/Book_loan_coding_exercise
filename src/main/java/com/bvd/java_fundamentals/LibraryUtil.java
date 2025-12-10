@@ -124,7 +124,9 @@ public class LibraryUtil {
 
     // checks if the book is present in the loans (case-insensitive)
     protected static Boolean isBookPresent(final List<BookLoan> loans, final String book) {
-        // Write your code here and replace the return statement
-        return null;
+        String lowerBook = book.toLowerCase();
+        return loans.stream()
+                .map(loan -> loan.getBookTitle().toLowerCase())
+                .anyMatch(title -> title.contains(lowerBook));
     }
 }
