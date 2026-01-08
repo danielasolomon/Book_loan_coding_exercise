@@ -1,12 +1,18 @@
 package com.bvd.java_fundamentals;
 
 import com.bvd.java_fundamentals.model.BookLoan;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 /*
  * Implement the methods below so that the requirements are met.
@@ -17,7 +23,30 @@ public class LibraryUtil {
     private LibraryUtil() {
     }
 
-    // load resource file from resources folder
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    static List<String> loadJsonLines(final String fileName) {
+
+        var classLoader = LibraryUtil.class.getClassLoader();
+        var resource = classLoader.getResourceAsStream(fileName);
+
+        if (resource == null) {
+            return Collections.emptyList();
+        }
+
+        try (var reader = new BufferedReader(new InputStreamReader(resource))) {
+            String json = reader.lines().collect(Collectors.joining("\n"));
+
+
+            return MAPPER.readValue(json, new TypeReference<List<String>>() {});
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+
     static List<String> loadResourceFile(final String fileName) {
 
         var classLoader = LibraryUtil.class.getClassLoader();
@@ -39,6 +68,36 @@ public class LibraryUtil {
         }
 
     }
+
+    protected static Map<String, List<BookLoan>> parseJsonLines(final List<String> jsonLines) {
+
+        return jsonLines.stream()
+                .map(line -> {
+                    try {
+                        return MAPPER.readValue(line, BookLoan.class);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .map(loan -> isValidLoan(loan) ? loan : null)
+                .collect(Collectors.groupingBy(x -> x == null ? "malformed" : "valid"));
+    }
+
+    private static boolean isValidLoan(BookLoan loan) {
+        if (loan == null) return false;
+
+        return !isBlank(loan.getLoanId())
+                && !isBlank(loan.getMemberId())
+                && loan.getLoanDate() != null
+                && !isBlank(loan.getBookTitle())
+                && !isBlank(loan.getGenre())
+                && !isBlank(loan.getAuthor());
+    }
+    private static boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
+
 
     // retrieve loans from csv lines
     // return a map of "valid" and "malformed" lines as keys and list of BookLoan objects as values
