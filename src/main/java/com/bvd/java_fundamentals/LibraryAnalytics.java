@@ -2,13 +2,7 @@ package com.bvd.java_fundamentals;
 
 import java.util.List;
 
-import static com.bvd.java_fundamentals.LibraryUtil.findFirstBookContaining;
-import static com.bvd.java_fundamentals.LibraryUtil.isBookPresent;
-import static com.bvd.java_fundamentals.LibraryUtil.loadResourceFile;
-import static com.bvd.java_fundamentals.LibraryUtil.loansByGenre;
-import static com.bvd.java_fundamentals.LibraryUtil.membersWithGenreDiversity;
-import static com.bvd.java_fundamentals.LibraryUtil.parseCsvLines;
-import static com.bvd.java_fundamentals.LibraryUtil.topAuthorsByLoans;
+import static com.bvd.java_fundamentals.LibraryUtil.*;
 
 /*
  * The scenario is a library system managing book loans.
@@ -37,8 +31,9 @@ import static com.bvd.java_fundamentals.LibraryUtil.topAuthorsByLoans;
  */
 public class LibraryAnalytics {
 
-    protected static List<String> loadedFile = loadResourceFile("");
+    protected static List<String> loadedFile = loadResourceFile("loans/libraryLoans.csv");
 
+    protected static List<String> loadedJsonFile = loadJsonLines("loans/libraryLoans.json");
     /* The expected output of the main method is:
         Loaded 35 entries from the CSV file.
         Valid loans: 31
@@ -51,13 +46,14 @@ public class LibraryAnalytics {
     */
     public static void main(String[] args) {
         var loans = parseCsvLines(loadedFile);
-        System.out.println("Loaded %s entries from the CSV file.".formatted(loadedFile.size()));
-        System.out.println("Valid loans: " + loans.get("valid").size());
-        System.out.println("Malformed loans: " + loans.get("malformed").size());
-        System.out.println("Loans by genre: " + loansByGenre(loans));
-        System.out.println("Top 2 authors: " + topAuthorsByLoans(loans, 2));
-        System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loans, 3));
-        System.out.println("First book containing 'Dune': " + findFirstBookContaining(loans, "Dune"));
-        System.out.println("Is book present: 'Harry Potter': " + isBookPresent(loans, "Harry Potter"));
+        var loansjson = parseJsonLines(loadedJsonFile);
+        System.out.println("Loaded %s entries from the CSV file.".formatted(loadedJsonFile.size()));
+        System.out.println("Valid loans: " + loansjson.get("valid").size());
+        System.out.println("Malformed loans: " + loansjson.get("malformed").size());
+        System.out.println("Loans by genre: " + loansByGenre(loansjson.get("valid")));
+        System.out.println("Top 2 authors: " + topAuthorsByLoans(loansjson.get("valid"), 2));
+        System.out.println("Members with genre diversity (>=3 genres): " + membersWithGenreDiversity(loansjson.get("valid"), 3));
+        System.out.println("First book containing 'Dune': " + findFirstBookContaining(loansjson.get("valid"), "Dune"));
+        System.out.println("Is book present: 'Harry Potter': " + isBookPresent(loansjson.get("valid"), "Harry Potter"));
     }
 }
